@@ -3,10 +3,16 @@ import {Request, Response} from "express";
 export class Router {       
     public Router(app): void {          
         app.route('/')
-        .all((req: Request, res: Response) => {            
+        .get((req: Request, res: Response) => {            
             res.status(200).send({
                 message: 'GET request successfulll!!!!'
             })
-        })               
+        }).post((req: Request, res: Response) => {    
+            const body = request.payload.Body;        
+            console.log(body);
+            res.status(200).send({
+                message: 'GET request successfulll!!!!'
+            })
+        })                
     }
 }
