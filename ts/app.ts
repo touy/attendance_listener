@@ -28,28 +28,28 @@ class App {
         // this.server.listen(this.port, this.host, () => {
         //     console.log('Attendance TCP Server is running on port ' + this.port + '.');
         // });
-        this.sockets= new Array<net.Socket>();
+        this.sockets = new Array<net.Socket>();
     }
     private listen(): void {
-
-        this.server.on('connection', function(sock:net.Socket) {
+        let parent = this;
+        this.server.on('connection', function (sock: net.Socket) {
             console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
-            this.sockets.push(sock);
-        
-            sock.on('data', function(data) {
+            parent.sockets.push(sock);
+
+            sock.on('data', function (data) {
                 console.log('DATA ' + sock.remoteAddress + ': ' + data);
                 // Write the data back to all the connected, the client will receive it as data from the server
-                // this.sockets.forEach(function(sock, index, array) {
+                // parent.sockets.forEach(function(sock, index, array) {
                 //    console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
                 // });
             });
-        
+
             // Add a 'close' event handler to this instance of socket
-            sock.on('close', function(data:boolean) {
-                let index = this.sockets.findIndex(function(o) {
+            sock.on('close', function (data: boolean) {
+                let index = parent.sockets.findIndex(function (o) {
                     return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
                 })
-                if (index !== -1) this.sockets.splice(index, 1);
+                if (index !== -1) parent.sockets.splice(index, 1);
                 console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
             });
         });
