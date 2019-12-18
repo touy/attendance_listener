@@ -16,7 +16,7 @@ class App {
     //public io: socketio.Server;
     private port: number = 8865;
     private host: string = "0.0.0.0";
-    public sockets: net.Socket[] = new Array<net.Socket>();
+    public sockets: Array<net.Socket> = new Array<net.Socket>();
     public server: net.Server;
     constructor() {
         this.config();
