@@ -16,7 +16,7 @@ class App {
     //public io: socketio.Server;
     private port: number = 8865;
     private host: string = "0.0.0.0";
-    public sockets: any[] = [];
+    public sockets: net.Socket[] = new Array<net.Socket>();
     public server: net.Server;
     constructor() {
         this.config();
@@ -31,7 +31,7 @@ class App {
     }
     private listen(): void {
 
-        this.server.on('connection', function(sock) {
+        this.server.on('connection', function(sock:net.Socket) {
             console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
             this.sockets.push(sock);
         
@@ -44,7 +44,7 @@ class App {
             });
         
             // Add a 'close' event handler to this instance of socket
-            sock.on('close', function(data) {
+            sock.on('close', function(data:boolean) {
                 let index = this.sockets.findIndex(function(o) {
                     return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
                 })
