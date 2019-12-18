@@ -5,6 +5,7 @@ import * as socketio from "socket.io";
 import * as path from "path";
 import * as httpserver from "http";
 import * as net from "net";
+import * as uuid from "uuid/v4";
 class App {
 
     //public app: express.Application;
@@ -12,7 +13,7 @@ class App {
     // public http: httpserver.Server;
     // set up socket.io and bind it to our
     // http server.
-    public io: socketio.Server;
+    //public io: socketio.Server;
     private port: number = 8865;
     private host: string = "0.0.0.0";
     public sockets: any[] = [];
@@ -20,14 +21,13 @@ class App {
     constructor() {
         this.config();
         this.listen();
-
     }
 
     private config(): void {
         this.server = net.createServer();
-        this.server.listen(this.port, this.host, () => {
-            console.log('Attendance TCP Server is running on port ' + this.port + '.');
-        });
+        // this.server.listen(this.port, this.host, () => {
+        //     console.log('Attendance TCP Server is running on port ' + this.port + '.');
+        // });
     }
     private listen(): void {
 
@@ -38,9 +38,9 @@ class App {
             sock.on('data', function(data) {
                 console.log('DATA ' + sock.remoteAddress + ': ' + data);
                 // Write the data back to all the connected, the client will receive it as data from the server
-                this.sockets.forEach(function(sock, index, array) {
-                   console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
-                });
+                // this.sockets.forEach(function(sock, index, array) {
+                //    console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+                // });
             });
         
             // Add a 'close' event handler to this instance of socket

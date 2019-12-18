@@ -1,7 +1,7 @@
 // ts/server.ts
 import app from "./app";
-// const PORT = 8865;
+const PORT = 8865;
 
-// app.listen(PORT, () => {
-//     console.log('Express server listening on port ' + PORT);
-// });
+app.server.listen(PORT,"0.0.0.0", () => {
+    console.log('attendance server listening on port ' + PORT);
+});
