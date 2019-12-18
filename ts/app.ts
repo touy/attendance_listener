@@ -4,58 +4,55 @@ import { Router } from "./routes/router";
 import * as socketio from "socket.io";
 import * as path from "path";
 import * as httpserver from "http";
+import * as net from "net";
 class App {
 
-    public app: express.Application;
+    //public app: express.Application;
     public routePrv: Router = new Router();
-    public http: httpserver.Server;
+    // public http: httpserver.Server;
     // set up socket.io and bind it to our
     // http server.
     public io: socketio.Server;
-    private port: string | number = 8865;
+    private port: number = 8865;
+    private host: string = "0.0.0.0";
     public sockets: any[] = [];
+    public server: net.Server;
     constructor() {
-        this.app = express();
         this.config();
-        //this.routePrv.Router(this.app);
         this.listen();
+
     }
 
     private config(): void {
-        // support application/json type post data
-        //this.app.use(bodyParser.json());
-        //support application/x-www-form-urlencoded post data
-        //this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.http = httpserver.createServer(this.app);
-        this.io = socketio(this.http);
+        this.server = net.createServer();
+        this.server.listen(this.port, this.host, () => {
+            console.log('Attendance TCP Server is running on port ' + this.port + '.');
+        });
     }
     private listen(): void {
 
-        this.io.on('connect', (socket: any) => {
-            this.sockets.push(socket);
-
-            this.app.listen(this.port, () => {
-                console.log('Running server on port %s', this.port);
+        this.server.on('connection', function(sock) {
+            console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
+            this.sockets.push(sock);
+        
+            sock.on('data', function(data) {
+                console.log('DATA ' + sock.remoteAddress + ': ' + data);
+                // Write the data back to all the connected, the client will receive it as data from the server
+                this.sockets.forEach(function(sock, index, array) {
+                   console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+                });
             });
-            // Write the data back to all the connected, the client will receive it as data from the server
-            //sockets.forEach(function(sock, index, array) {
-            //  console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
-            //});
-            socket.on('message', (m: any) => {
-                console.log('[server](message): %s', JSON.stringify(m));
-               // this.io.emit('message', m);
-            });
-
-            socket.on('disconnect', () => {
-                console.log('Client disconnected');
+        
+            // Add a 'close' event handler to this instance of socket
+            sock.on('close', function(data) {
                 let index = this.sockets.findIndex(function(o) {
-                    return o.remoteAddress === socket.remoteAddress && o.remotePort === socket.remotePort;
+                    return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
                 })
                 if (index !== -1) this.sockets.splice(index, 1);
-                console.log('CLOSED: ' + socket.remoteAddress + ' ' + socket.remotePort);
+                console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
             });
         });
     }
 }
 
-export default new App().app;
+export default new App();
