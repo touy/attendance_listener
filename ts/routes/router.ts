@@ -4,7 +4,7 @@ export class Router {
     public Router(app: Application): void {
         app.post('*', function (req, res) {
             const body = req.body;
-            console.log(body);
+            console.log(req);
             // res.status(200).send({
             //     message: 'POST request successfulll!!!!'
             // })
