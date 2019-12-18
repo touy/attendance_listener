@@ -27,6 +27,7 @@
     "@types/mongodb": "^3.3.13",
     "@types/nano": "^7.0.0",
     "@types/node": "^12.12.21",
+    "@types/socket.io": "^2.1.4",
     "@types/uuid": "^3.4.6",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
@@ -37,6 +38,7 @@
     "nano": "^8.1.0",
     "nodemon": "^2.0.2",
     "redis": "^2.8.0",
+    "socket.io": "^2.3.0",
     "typescript": "^3.7.3",
     "uuid": "^3.3.3"
   }
