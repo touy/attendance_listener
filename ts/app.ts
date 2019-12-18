@@ -43,7 +43,7 @@ class App {
             //});
             socket.on('message', (m: any) => {
                 console.log('[server](message): %s', JSON.stringify(m));
-                this.io.emit('message', m);
+               // this.io.emit('message', m);
             });
 
             socket.on('disconnect', () => {
