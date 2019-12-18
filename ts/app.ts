@@ -37,7 +37,7 @@ class App {
             parent.sockets.push(sock);
 
             sock.on('data', function (data) {
-                console.log('DATA ' + sock.remoteAddress + ': ' + data);
+                console.log('DATA FROM' + sock.remoteAddress + ': ' + data);
                 // Write the data back to all the connected, the client will receive it as data from the server
                 // parent.sockets.forEach(function(sock, index, array) {
                 //    console.log(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
