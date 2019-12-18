@@ -16,7 +16,7 @@ class App {
     //public io: socketio.Server;
     private port: number = 8865;
     private host: string = "0.0.0.0";
-    public sockets: Array<net.Socket> = new Array<net.Socket>();
+    public sockets: Array<net.Socket>;
     public server: net.Server;
     constructor() {
         this.config();
@@ -28,6 +28,7 @@ class App {
         // this.server.listen(this.port, this.host, () => {
         //     console.log('Attendance TCP Server is running on port ' + this.port + '.');
         // });
+        this.sockets= new Array<net.Socket>();
     }
     private listen(): void {
 
