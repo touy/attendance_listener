@@ -8,7 +8,7 @@ export class Router {
                 message: 'GET request successfulll!!!!'
             })
         }).post((req: Request, res: Response) => {    
-            const body = request.body.Body;        
+            const body = req.body.Body;        
             console.log(body);
             res.status(200).send({
                 message: 'GET request successfulll!!!!'
