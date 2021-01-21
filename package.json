@@ -38,7 +38,7 @@
     "nano": "^8.1.0",
     "nodemon": "^2.0.2",
     "redis": "^2.8.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "typescript": "^3.7.3",
     "uuid": "^3.3.3"
   }
